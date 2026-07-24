@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAX GROUP - Webhook Tool 🕷️☠️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: url('https://i.pinimg.com/1200x/53/f2/73/53f273de3c626f5192e5cd8ebbdda4c2.jpg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 0;
+        }
+        
+        .container {
+            background: rgba(10, 5, 20, 0.92);
+            border: 3px solid #9b4dff;
+            border-radius: 25px;
+            padding: 35px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: 0 0 80px rgba(155, 77, 255, 0.15);
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(5px);
+        }
+        
+        .logo {
+            text-align: center;
+            color: #9b4dff;
+            font-size: 20px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 30px rgba(155, 77, 255, 0.3);
+            letter-spacing: 3px;
+        }
+        
+        .logo span {
+            color: #ff0040;
+            text-shadow: 0 0 30px rgba(255, 0, 64, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #9b4dff;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            color: #9b4dff;
+            font-size: 13px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #9b4dff;
+            border-radius: 12px;
+            color: #9b4dff;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #cc88ff;
+            box-shadow: 0 0 20px rgba(155, 77, 255, 0.1);
+        }
+        
+        input::placeholder, textarea::placeholder {
+            color: #445566;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #9b4dff, #7a2ecc);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(155, 77, 255, 0.3);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #ff0040, #cc0033);
+            color: white;
+            margin-top: 8px;
+        }
+        
+        .btn-danger:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(255, 0, 64, 0.3);
+        }
+        
+        .btn-danger:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #00ff41, #00cc33);
+            color: #0a0a0a;
+            margin-top: 8px;
+        }
+        
+        .btn-success:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 40px rgba(0, 255, 65, 0.3);
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .stat-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #9b4dff33;
+        }
+        
+        .stat-card .num {
+            font-size: 24px;
+            font-weight: bold;
+            color: #9b4dff;
+        }
+        
+        .stat-card .num.green {
+            color: #00ff41;
+        }
+        
+        .stat-card .num.red {
+            color: #ff0040;
+        }
+        
+        .stat-card .num.yellow {
+            color: #ffcc00;
+        }
+        
+        .stat-card .label {
+            color: #8899aa;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .log {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 10px;
+            max-height: 120px;
+            overflow-y: auto;
+            font-size: 11px;
+            color: #bb99ee;
+            border: 1px solid #9b4dff33;
+            margin-top: 15px;
+            display: none;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .log.active {
+            display: block;
+        }
+        
+        .log-entry {
+            padding: 2px 0;
+            border-bottom: 1px solid #9b4dff11;
+        }
+        
+        .log-entry.success {
+            color: #00ff41;
+        }
+        
+        .log-entry.error {
+            color: #ff0040;
+        }
+        
+        .log-entry.info {
+            color: #ffcc00;
+        }
+        
+        .log::-webkit-scrollbar {
+            width: 4px;
+        }
+        .log::-webkit-scrollbar-thumb {
+            background: #9b4dff;
+            border-radius: 10px;
+        }
+        
+        .footer {
+            text-align: center;
+            color: #445566;
+            font-size: 10px;
+            margin-top: 20px;
+        }
+        
+        .footer span {
+            color: #9b4dff;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+            color: #aabbcc;
+            font-size: 13px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #9b4dff;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px;
+            }
+            .row {
+                grid-template-columns: 1fr;
+            }
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="logo">════ LAX GROUP <span>🕷️☠️</span> ════</div>
+    <h1>🔮 Webhook Tool v2.0</h1>
+
+    <!-- Webhook Input -->
+    <div class="form-group">
+        <label>🔗 Webhook URL</label>
+        <input type="text" id="webhookUrl" placeholder="https://discord.com/api/webhooks/..." dir="ltr">
+    </div>
+
+    <!-- Message Input -->
+    <div class="form-group">
+        <label>📝 Message Content</label>
+        <textarea id="messageContent" placeholder="Type your message here..."></textarea>
+    </div>
+
+    <!-- Options Row -->
+    <div class="row">
+        <div class="form-group">
+            <label>🔢 Message Count</label>
+            <input type="number" id="messageCount" value="5" min="1" max="100">
+        </div>
+        <div class="form-group">
+            <label>⏱ Delay (ms)</label>
+            <input type="number" id="delayMs" value="500" min="100" max="5000">
+        </div>
+    </div>
+
+    <!-- Checkboxes -->
+    <div class="checkbox-group">
+        <input type="checkbox" id="encodeBase64">
+        <label for="encodeBase64" style="margin:0; cursor:pointer;">🔐 Encode message in Base64</label>
+    </div>
+    <div class="checkbox-group">
+        <input type="checkbox" id="randomizeMessage">
+        <label for="randomizeMessage" style="margin:0; cursor:pointer;">🎲 Add random text at the end</label>
+    </div>
+    <div class="checkbox-group">
+        <input type="checkbox" id="embedMode">
+        <label for="embedMode" style="margin:0; cursor:pointer;">📦 Send as Embed</label>
+    </div>
+
+    <!-- Buttons -->
+    <button class="btn btn-primary" id="startBtn" onclick="startSpam()">🚀 START SPAM</button>
+    <button class="btn btn-danger" id="stopBtn" onclick="stopSpam()" disabled>⏹ STOP</button>
+    <button class="btn btn-success" id="testBtn" onclick="sendTest()">📨 Send Test Message</button>
+
+    <!-- Stats -->
+    <div class="stats" id="stats">
+        <div class="stat-card">
+            <div class="num green" id="sentCount">0</div>
+            <div class="label">✅ Sent</div>
+        </div>
+        <div class="stat-card">
+            <div class="num red" id="errorCount">0</div>
+            <div class="label">❌ Errors</div>
+        </div>
+        <div class="stat-card">
+            <div class="num yellow" id="totalCount">0</div>
+            <div class="label">📊 Total</div>
+        </div>
+    </div>
+
+    <!-- Log -->
+    <div class="log" id="log"></div>
+
+    <div class="footer">
+        <span>🕷️☠️</span> LAX GROUP <span>🕷️☠️</span>
+    </div>
+</div>
+
+<script>
+    let isRunning = false;
+    let stopFlag = false;
+    let sent = 0;
+    let errors = 0;
+    let total = 0;
+
+    function addLog(message, type = 'info') {
+        const logDiv = document.getElementById('log');
+        const entry = document.createElement('div');
+        entry.className = 'log-entry ' + type;
+        const time = new Date().toLocaleTimeString();
+        entry.textContent = `[${time}] ${message}`;
+        logDiv.appendChild(entry);
+        logDiv.scrollTop = logDiv.scrollHeight;
+        logDiv.classList.add('active');
+    }
+
+    function updateStats() {
+        document.getElementById('sentCount').textContent = sent;
+        document.getElementById('errorCount').textContent = errors;
+        document.getElementById('totalCount').textContent = total;
+    }
+
+    function sendTest() {
+        const webhook = document.getElementById('webhookUrl').value.trim();
+        const message = document.getElementById('messageContent').value.trim();
+
+        if (!webhook) {
+            addLog('⚠️ Please enter a Webhook URL!', 'error');
+            return;
+        }
+        if (!message) {
+            addLog('⚠️ Please enter a message!', 'error');
+            return;
+        }
+
+        sendMessage(webhook, message, false);
+    }
+
+    function sendMessage(webhook, message, isSpam = false) {
+        const encode = document.getElementById('encodeBase64').checked;
+        const randomize = document.getElementById('randomizeMessage').checked;
+        const embedMode = document.getElementById('embedMode').checked;
+
+        let finalMessage = message;
+
+        if (encode) {
+            finalMessage = btoa(finalMessage);
+            if (!isSpam) addLog(`🔐 Encoded: ${finalMessage}`, 'info');
+        }
+
+        if (randomize) {
+            const rand = Math.random().toString(36).substring(2, 8);
+            finalMessage += ` [${rand}]`;
+        }
+
+        const payload = embedMode ? {
+            embeds: [{
+                description: finalMessage,
+                color: 0x9b4dff,
+                footer: { text: '🕷️☠️ LAX GROUP' }
+            }]
+        } : { content: finalMessage };
+
+        return fetch(webhook, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(response => {
+            if (response.ok) {
+                if (!isSpam) addLog('✅ Message sent successfully!', 'success');
+                return true;
+            } else {
+                if (!isSpam) addLog(`❌ Error: ${response.status} ${response.statusText}`, 'error');
+                return false;
+            }
+        })
+        .catch(error => {
+            if (!isSpam) addLog(`❌ Network error: ${error.message}`, 'error');
+            return false;
+        });
+    }
+
+    async function startSpam() {
+        const webhook = document.getElementById('webhookUrl').value.trim();
+        const message = document.getElementById('messageContent').value.trim();
+        const count = parseInt(document.getElementById('messageCount').value) || 5;
+        const delay = parseInt(document.getElementById('delayMs').value) || 500;
+
+        if (!webhook) {
+            addLog('⚠️ Please enter a Webhook URL!', 'error');
+            return;
+        }
+        if (!message) {
+            addLog('⚠️ Please enter a message!', 'error');
+            return;
+        }
+        if (count < 1 || count > 100) {
+            addLog('⚠️ Count must be between 1 and 100', 'error');
+            return;
+        }
+
+        if (isRunning) {
+            addLog('⚠️ Already running! Stop first.', 'error');
+            return;
+        }
+
+        isRunning = true;
+        stopFlag = false;
+        sent = 0;
+        errors = 0;
+        total = 0;
+
+        document.getElementById('startBtn').disabled = true;
+        document.getElementById('startBtn').textContent = '⏳ RUNNING...';
+        document.getElementById('stopBtn').disabled = false;
+        document.getElementById('testBtn').disabled = true;
+
+        addLog(`🚀 Starting spam: ${count} messages, delay ${delay}ms`, 'info');
+
+        for (let i = 0; i < count; i++) {
+            if (stopFlag) break;
+
+            const success = await sendMessage(webhook, message, true);
+            if (success) {
+                sent++;
+            } else {
+                errors++;
+            }
+            total++;
+            updateStats();
+
+            if (i < count - 1 && !stopFlag) {
+                await new Promise(r => setTimeout(r, delay));
+            }
+        }
+
+        isRunning = false;
+        document.getElementById('startBtn').disabled = false;
+        document.getElementById('startBtn').textContent = '🚀 START SPAM';
+        document.getElementById('stopBtn').disabled = true;
+        document.getElementById('testBtn').disabled = false;
+
+        addLog(`✅ Completed! Sent: ${sent}, Errors: ${errors}`, 'success');
+    }
+
+    function stopSpam() {
+        if (isRunning) {
+            stopFlag = true;
+            addLog('⏹ Stopping... (Will stop after current message)', 'info');
+            document.getElementById('stopBtn').disabled = true;
+        }
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && e.ctrlKey) {
+            sendTest();
+        }
+    });
+</script>
+</body>
+</html>
